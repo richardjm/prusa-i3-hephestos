@@ -116,16 +116,23 @@ module tencha(){
 	cube([8, 19, 19]);
 }
 
+module motorslot(h, r){
+	hull(){
+		cylinder(h = h, r = r);
+		translate([7, 0, 0])
+		cylinder(h = h, r = r);
+	}
+}
+
 // Alojamiento y taladro para los tornillos del motor
 module tormotor(){
 	// Taladro del tornillo
 	translate([0, 1, 0])
 	rotate( 90, [1, 0, 0])
-	cylinder(h = 8, r = dTaTorMo/2);
-	// Alojamiento para la cabeza del tornillo
+	motorslot(h = 8, r = dTaTorMo/2);
 	translate([0, -6, 0])
 	rotate( 90, [1, 0, 0])
-	cylinder(h = 12, r = dTaHaTorMo/2);
+	motorslot(h = 12, r = dTaHaTorMo/2);
 }
 
 // Soporte del motor paso a paso (Parte superior)
@@ -133,19 +140,20 @@ module sopmotorA(){
 	// Parte en forma de cuña
 	difference(){
 		// Rectángulo de la pieza inicial
-		cube([14.5, 17, 36]);
+		translate([0, 0, 9])
+		cube([20.5, 17, 27]);
 		union(){
 			// Chaflán superior derecho 
-			translate([14.5, -1, 34])
+			translate([20.5, -1, 34])
 			rotate( -45, [0, 1, 0])
 			cube([3, 19, 3]);
 			// Chaflán inferior 
-			translate([14.5, -1, 26])
-			rotate( 120, [0, 1, 0])
-			cube([30, 19, 14]);
+			translate([20.5, -1, 26])
+			rotate( 145, [0, 1, 0])
+			cube([30, 19, 20]);
 			// Vaciado interior
 			translate([-1, 3.5, 4.15])
-			cube([16, 10, 20.7]);
+			cube([26, 10, 20.7]);
 			// Taladro para el tornillo del motor (Superior)
 			translate([9, 17, 30])
 			tormotor();
@@ -185,20 +193,20 @@ module sopmotorA(){
 module sopmotorB(){
 	difference(){
 		// Rectángulo base
-		cube([46, 10, 19.5]);
+		cube([52, 10, 19.5]);
 		union(){
 			// Chaflán inferior
-			translate([42, -1, 0])
+			translate([47.5, -1, 0])
 			rotate( 33.69, [0, 1, 0])
 			cube([4, 12, 8]);
 			// Chaflán superior derecho 
-			translate([46, -1, 17.5])
+			translate([52, -1, 17.5])
 			rotate( -45, [0, 1, 0])
 			cube([3, 12, 3]);
 			// Unión mediante el comando hull del redondeo y el chaflán
 			hull(){
 				// Chaflán superior izquierda 
-				translate([34, -1, 17.5])
+				translate([38, -1, 17.5])
 				rotate( -45, [0, 1, 0])
 				cube([3, 12, 3]);
 				// Redondeo
