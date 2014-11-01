@@ -15,6 +15,8 @@ include <Code_Config.scad>;
 TorFinal = true;	
 dTaTorfinal = 3.6 ;	// Diámetro del taladro
 hTuer = 5.8 ; 		// Distancia entre caras de la tuerca
+dTaTorfinalM2 = 2.7 ;
+hTuerM2 = 4.3;
 
 // Tuerca varilla roscada del eje Z
 hTuZ = 7.96744 ;	// Distancia entre caras de la tuerca (7.96744)
@@ -130,6 +132,7 @@ module tormotor(){
 	translate([0, 1, 0])
 	rotate( 90, [1, 0, 0])
 	motorslot(h = 8, r = dTaTorMo/2);
+	// Alojamiento para la cabeza del tornillo
 	translate([0, -6, 0])
 	rotate( 90, [1, 0, 0])
 	motorslot(h = 12, r = dTaHaTorMo/2);
@@ -245,6 +248,28 @@ module soptorfinal(){
 	}
 }
 
+module tensioner(){
+	rotate([0,-90,180])
+		difference(){
+		// Rectángulo base
+		translate([-12.2, 0, -14])
+		cube([12, 4.5, 14]);
+		union(){
+			// Taladro para el paso del tornillo
+			translate([-4.23, 2, -15])
+			cylinder(h = 16, r = dTaTorfinalM2/2);
+			// Alojamiento de la tuerca
+			translate([-4.23, 2, 0])
+			//rotate([0,0,30])
+			hexagono(hTuerM2,6);
+			// Chaflán inferior
+			translate([-12, 6.5, -16])
+			rotate( -140.27, [0, 0, 1])
+			cube([10, 9, 17]);
+		}
+	}
+}
+
 // Unimos los diferentes módulos que forman la pieza
 // Y aplicamos algunas operaciones comunes
 module pieza(){
@@ -283,7 +308,8 @@ module pieza(){
 		translate([44, -7.9, 51.5])
 		soptorfinal();
 	}
-	
+	translate([40,21.4,35])
+	tensioner();
 }
 
 // Generamos la pieza!!
